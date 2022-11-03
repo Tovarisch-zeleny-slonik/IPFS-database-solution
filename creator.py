@@ -3,6 +3,7 @@ import requests
 import os
 import ast
 import rsa
+import time
 
 
 class IPFS_Database:
@@ -23,6 +24,7 @@ class IPFS_Database:
             ipfs_url = "http://127.0.0.1:5001"
             endpoint = "/api/v0/add"
             response = requests.post(ipfs_url + endpoint, files={"file": text_binary})
+            time.sleep(5)
             ipfs_hash = response.json()["Hash"]
             print("File has been added to IPFS")
             self._add_pp_to_pickle(ipfs_hash, privatk)
