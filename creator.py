@@ -24,7 +24,6 @@ class IPFS_Database:
             ipfs_url = "http://127.0.0.1:5001"
             endpoint = "/api/v0/add"
             response = requests.post(ipfs_url + endpoint, files={"file": text_binary})
-            time.sleep(5)
             ipfs_hash = response.json()["Hash"]
             print("File has been added to IPFS")
             self._add_pp_to_pickle(ipfs_hash, privatk)
@@ -32,8 +31,10 @@ class IPFS_Database:
         return ipfs_hash
 
     #Geting data from IPFS
-    def get_data_from_ipfs(self, hash_ipfs, pk):
+    def get_data_from_ipfs(self, hash_ipfs, pk, first_load=False):
         try:
+            if first_load is True:
+                time.sleep(30)
             url = f'https://ipfs.io/ipfs/{hash_ipfs}'
             answer = requests.get(url)
             crypted_text = answer.content
