@@ -14,3 +14,17 @@ It is possible that third person can try to access the data if he first get acce
 
 Data remains on IPFS forever - you need to come to terms with this. Therefore, the “change_data_in_ipfs()” function only imitates the replacement of information in the database - in fact, a new node is created, to which the information is sent and remains stored there in encrypted form. Therefore, by the way, you do not need to worry about the safety of your previous data, because the keys to them are deleted, and they themselves are encrypted, and it is unlikely that they will ever be found and decrypted.
 Perhaps I will update this repository, and even come up with a proper name for it! In the meantime, good luck to everyone, use your health.
+
+
+Example:
+
+dbb = IPFS_Database()
+
+if __name__ == '__main__':
+    private_key = dbb.write_to_bytes()
+    ipfs_hash = dbb.add_data_to_ipfs(private_key)
+    private_key = dbb._get_pk_from_pickle(ipfs_hash)
+    text = dbb.get_data_from_ipfs(ipfs_hash, private_key)
+    if text is None:
+        text = dbb.get_data_from_ipfs(ipfs_hash, private_key)
+    print(text)
