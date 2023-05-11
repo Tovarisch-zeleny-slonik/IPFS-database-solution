@@ -35,12 +35,13 @@ class IPFS_Database:
         try:
             if first_load is True:
                 time.sleep(30)
-            url = f'https://ipfs.io/ipfs/{hash_ipfs}'
-            answer = requests.get(url)
-            crypted_text = answer.content
-            descrypted_text = self.__rsa_descrypt(crypted_text, pk)
+            while descrypted_dict is None:
+                url = f'https://ipfs.io/ipfs/{hash_ipfs}'
+                answer = requests.get(url)
+                crypted_text = answer.content
+                descrypted_text = self.__rsa_descrypt(crypted_text, pk)
+                descrypted_dict = ast.literal_eval(descrypted_text)
             print("Descryption has been succesfull")
-            descrypted_dict = ast.literal_eval(descrypted_text)
             return descrypted_dict
         except Exception:
             print("Code 504. Try again...")
